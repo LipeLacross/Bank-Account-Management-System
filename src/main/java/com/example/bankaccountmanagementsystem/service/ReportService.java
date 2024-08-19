@@ -1,4 +1,4 @@
-package com.example.service;
+package com.example.bankaccountmanagementsystem.service;
 
 import org.springframework.stereotype.Service;
 
@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 public class ReportService {
 
     public String generateMonthlyReport() {
-        // Logic for generating the monthly report
         return "Monthly report generated.";
     }
 }

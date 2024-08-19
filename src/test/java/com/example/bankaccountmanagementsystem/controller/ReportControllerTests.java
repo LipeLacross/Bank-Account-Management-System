@@ -1,18 +1,25 @@
 package com.example.bankaccountmanagementsystem.controller;
 
 import com.example.bankaccountmanagementsystem.service.ReportService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
-class ReportControllerTests {
+@SpringBootTest
+public class ReportControllerTests {
+
+    private MockMvc mockMvc;
 
     @InjectMocks
     private ReportController reportController;
@@ -20,15 +27,15 @@ class ReportControllerTests {
     @Mock
     private ReportService reportService;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
-
     @Test
-    void testGenerateMonthlyReport() {
+    public void testGenerateMonthlyReport() throws Exception {
+        MockitoAnnotations.openMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(reportController).build();
+
         when(reportService.generateMonthlyReport()).thenReturn("Monthly report generated.");
-        ResponseEntity<?> response = reportController.generateMonthlyReport();
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        mockMvc.perform(get("/reports/monthly"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Monthly report generated."));
     }
 }

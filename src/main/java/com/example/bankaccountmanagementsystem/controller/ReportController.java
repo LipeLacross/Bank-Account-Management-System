@@ -1,7 +1,9 @@
-package com.example.controller;
+package com.example.bankaccountmanagementsystem.controller;
 
 import com.example.bankaccountmanagementsystem.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,7 +14,8 @@ public class ReportController {
     private ReportService reportService;
 
     @GetMapping("/monthly")
-    public String generateMonthlyReport() {
-        return reportService.generateMonthlyReport();
+    public ResponseEntity<String> generateMonthlyReport() {
+        String report = reportService.generateMonthlyReport();
+        return new ResponseEntity<>(report, HttpStatus.OK);
     }
 }

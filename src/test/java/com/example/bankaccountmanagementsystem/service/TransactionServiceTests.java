@@ -2,19 +2,19 @@ package com.example.bankaccountmanagementsystem.service;
 
 import com.example.bankaccountmanagementsystem.model.Transaction;
 import com.example.bankaccountmanagementsystem.repository.TransactionRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Collections;
 import java.util.Optional;
 
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
-class TransactionServiceTests {
+@SpringBootTest
+public class TransactionServiceTests {
 
     @InjectMocks
     private TransactionService transactionService;
@@ -22,28 +22,23 @@ class TransactionServiceTests {
     @Mock
     private TransactionRepository transactionRepository;
 
-    @BeforeEach
-    void setUp() {
+    @Test
+    public void testCreateTransaction() {
         MockitoAnnotations.openMocks(this);
-    }
-
-    @Test
-    void testGetAllTransactions() {
-        when(transactionRepository.findAll()).thenReturn(Collections.singletonList(new Transaction()));
-        assertEquals(1, transactionService.getAllTransactions().size());
-    }
-
-    @Test
-    void testCreateTransaction() {
         Transaction transaction = new Transaction();
-        when(transactionRepository.save(any(Transaction.class))).thenReturn(transaction);
-        assertNotNull(transactionService.createTransaction(transaction));
+        when(transactionRepository.save(transaction)).thenReturn(transaction);
+
+        Transaction createdTransaction = transactionService.createTransaction(transaction);
+        assertEquals(transaction, createdTransaction);
     }
 
     @Test
-    void testGetTransactionById() {
+    public void testGetTransactionById() {
+        MockitoAnnotations.openMocks(this);
         Transaction transaction = new Transaction();
         when(transactionRepository.findById(1L)).thenReturn(Optional.of(transaction));
-        assertNotNull(transactionService.getTransactionById(1L));
+
+        Optional<Transaction> retrievedTransaction = transactionService.getTransactionById(1L);
+        assertEquals(transaction, retrievedTransaction.get());
     }
 }

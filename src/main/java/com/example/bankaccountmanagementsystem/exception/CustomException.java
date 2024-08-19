@@ -1,4 +1,4 @@
-package com.example.exception;
+package com.example.bankaccountmanagementsystem.exception;
 
 public class CustomException extends RuntimeException {
 

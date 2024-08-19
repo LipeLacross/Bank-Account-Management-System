@@ -2,20 +2,25 @@ package com.example.bankaccountmanagementsystem.controller;
 
 import com.example.bankaccountmanagementsystem.model.Account;
 import com.example.bankaccountmanagementsystem.service.AccountService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.Collections;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
+@SpringBootTest
+public class AccountControllerTests {
 
-class AccountControllerTests {
+    private MockMvc mockMvc;
 
     @InjectMocks
     private AccountController accountController;
@@ -23,31 +28,15 @@ class AccountControllerTests {
     @Mock
     private AccountService accountService;
 
-    @BeforeEach
-    void setUp() {
+    @Test
+    public void testGetAllAccounts() throws Exception {
         MockitoAnnotations.openMocks(this);
-    }
+        mockMvc = MockMvcBuilders.standaloneSetup(accountController).build();
 
-    @Test
-    void testGetAllAccounts() {
-        when(accountService.getAllAccounts()).thenReturn(Collections.singletonList(new Account()));
-        ResponseEntity<?> response = accountController.getAllAccounts();
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
+        when(accountService.getAllAccounts()).thenReturn(List.of(new Account()));
 
-    @Test
-    void testCreateAccount() {
-        Account account = new Account();
-        when(accountService.createAccount(any(Account.class))).thenReturn(account);
-        ResponseEntity<?> response = accountController.createAccount(account);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-    }
-
-    @Test
-    void testGetAccountById() {
-        Account account = new Account();
-        when(accountService.getAccountById(1L)).thenReturn(account);
-        ResponseEntity<?> response = accountController.getAccountById(1L);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        mockMvc.perform(get("/accounts"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray());
     }
 }

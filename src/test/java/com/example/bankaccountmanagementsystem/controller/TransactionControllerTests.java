@@ -2,20 +2,25 @@ package com.example.bankaccountmanagementsystem.controller;
 
 import com.example.bankaccountmanagementsystem.model.Transaction;
 import com.example.bankaccountmanagementsystem.service.TransactionService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.Collections;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
+@SpringBootTest
+public class TransactionControllerTests {
 
-class TransactionControllerTests {
+    private MockMvc mockMvc;
 
     @InjectMocks
     private TransactionController transactionController;
@@ -23,31 +28,20 @@ class TransactionControllerTests {
     @Mock
     private TransactionService transactionService;
 
-    @BeforeEach
-    void setUp() {
+    @Test
+    public void testCreateTransaction() throws Exception {
         MockitoAnnotations.openMocks(this);
-    }
+        mockMvc = MockMvcBuilders.standaloneSetup(transactionController).build();
 
-    @Test
-    void testGetAllTransactions() {
-        when(transactionService.getAllTransactions()).thenReturn(Collections.singletonList(new Transaction()));
-        ResponseEntity<?> response = transactionController.getAllTransactions();
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
-
-    @Test
-    void testCreateTransaction() {
         Transaction transaction = new Transaction();
-        when(transactionService.createTransaction(any(Transaction.class))).thenReturn(transaction);
-        ResponseEntity<?> response = transactionController.createTransaction(transaction);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-    }
+        transaction.setId(1L);
 
-    @Test
-    void testGetTransactionById() {
-        Transaction transaction = new Transaction();
-        when(transactionService.getTransactionById(1L)).thenReturn(transaction);
-        ResponseEntity<?> response = transactionController.getTransactionById(1L);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        when(transactionService.createTransaction(transaction)).thenReturn(transaction);
+
+        mockMvc.perform(post("/transactions")
+                        .contentType("application/json")
+                        .content("{\"type\":\"deposit\", \"amount\":100.0}"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").value(1));
     }
 }

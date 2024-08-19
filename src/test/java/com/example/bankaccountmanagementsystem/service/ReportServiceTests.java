@@ -1,24 +1,18 @@
 package com.example.bankaccountmanagementsystem.service;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ReportServiceTests {
+@SpringBootTest
+public class ReportServiceTests {
 
-    @InjectMocks
-    private ReportService reportService;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
+    private ReportService reportService = new ReportService();
 
     @Test
-    void testGenerateMonthlyReport() {
-        assertEquals("Monthly report generated.", reportService.generateMonthlyReport());
+    public void testGenerateMonthlyReport() {
+        String report = reportService.generateMonthlyReport();
+        assertEquals("Monthly report generated.", report);
     }
 }
