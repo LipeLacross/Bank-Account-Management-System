@@ -17,8 +17,10 @@ Este projeto é um sistema de gerenciamento de contas bancárias que permite cri
     - Deletar transações.
 
 ### Exemplo Visual do Projeto
-
-(Imagens ou capturas de tela do Postman ou da interface do sistema podem ser inseridas aqui.)
+![Screenshot 2024-08-18 222701](https://github.com/user-attachments/assets/9a6dcfcf-1edb-452b-b297-b4a52450cc37)
+![Screenshot 2024-08-18 222923](https://github.com/user-attachments/assets/6523a344-2705-4465-9cb1-8aa3987dcad5)
+![Screenshot 2024-08-18 222949](https://github.com/user-attachments/assets/cf660c86-5eb1-4b50-aba0-5fc68ed83fb5)
+![Screenshot 2024-08-18 224313](https://github.com/user-attachments/assets/f023e7af-f2da-4be3-8c9e-eaa0f3ee3f4b)
 
 ## ✔️ Técnicas e Tecnologias Utilizadas
 
