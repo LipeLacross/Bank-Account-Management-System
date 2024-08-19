@@ -5,7 +5,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReportService {
 
-    public String generateMonthlyReport() {
-        return "Monthly report generated.";
+    public String generateReport() {
+        // Logic to generate report
+        return "Report generated successfully";
     }
 }
