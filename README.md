@@ -1,3 +1,5 @@
+## 🌐 [English Version of README](README_EN.md)
+
 # Bank Account Management System
 
 Este projeto é um sistema de gerenciamento de contas bancárias que permite criar, visualizar, atualizar e deletar contas e transações. Foi desenvolvido usando Spring Boot para o backend e PostgreSQL como banco de dados.
