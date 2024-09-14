@@ -6,8 +6,8 @@ WORKDIR /app
 
 # Copiar arquivos de configuração do Gradle e scripts
 COPY gradle /app/gradle
-COPY gradle-wrapper.jar /app/gradle/wrapper/
 COPY gradle-wrapper.properties /app/gradle/wrapper/
+COPY gradle-wrapper.jar /app/gradle/wrapper/
 COPY build.gradle settings.gradle /app/
 
 # Copiar o código-fonte
